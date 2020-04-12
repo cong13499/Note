@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/save"
+            android:orderInCategory="100"
+            android:icon="@drawable/ic_save"
+            android:title="save"
+            app:showAsAction="always"
+            app:actionViewClass="androidx.appcompat.widget.Toolbar" />
+
+        <item android:id="@+id/back"
+            android:orderInCategory="100"
+            android:icon="@drawable/ic_arrow_back"
+            android:title="save"
+            app:showAsAction="always"
+            app:actionViewClass="androidx.appcompat.widget.Toolbar" />
+    </group>
+
+</menu>
