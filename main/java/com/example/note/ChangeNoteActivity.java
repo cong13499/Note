@@ -8,7 +8,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -46,12 +45,12 @@ public class ChangeNoteActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        String t = bundle.getString("Title");
-        String c = bundle.getString("Content");
-        int pos = bundle.getInt("Position");
+        int id = bundle.getInt("ID");
+        String t = title.getText().toString();
+        String c = content.getText().toString();
 
         if(!t.equals("") || !c.equals("")) {
-            db.updateData(pos, new Note(t, c));
+            db.updateData(id, new Note(t, c));
             intent = new Intent(ChangeNoteActivity.this, MainActivity.class);
             startActivity(intent);
         } else {

@@ -53,9 +53,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         listView = findViewById(R.id.list_note);
         listView.setOnItemClickListener(this);
         listView.setOnItemLongClickListener(this);
+
         if(db.getAllData() != null) {
             arrayList = db.getAllData();
         }
+
         adapter = new MyAdapter(this, arrayList);
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -72,12 +74,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
-                return true;
+                return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
                 return false;
             }
         });
@@ -90,9 +92,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Intent intent = new Intent(MainActivity.this, ChangeNoteActivity.class);
         Bundle bundle = new Bundle();
 
+        bundle.putInt("ID", arrayList.get(position).getID());
         bundle.putString("Title", arrayList.get(position).getTitle());
         bundle.putString("Content", arrayList.get(position).getContent());
-        bundle.putInt("Position", position + 1);
 
         intent.putExtras(bundle);
         startActivity(intent);
@@ -100,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        db.deleteData(position + 1);
+        db.deleteData(arrayList.get(position).getID());
         arrayList.remove(position);
         adapter.notifyDataSetChanged();
         return true;

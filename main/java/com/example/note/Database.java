@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -65,10 +66,11 @@ public class Database extends SQLiteOpenHelper {
 
         ArrayList<Note> list = new ArrayList<>();
         while (!cursor.isAfterLast()) {
+            int id = cursor.getInt(cursor.getColumnIndex(COL_1));
             String title = cursor.getString(cursor.getColumnIndex(COL_2));
             String content = cursor.getString(cursor.getColumnIndex(COL_3));
 
-            list.add(new Note(title, content));
+            list.add(new Note(id, title, content));
             cursor.moveToNext();
         }
 
@@ -77,7 +79,8 @@ public class Database extends SQLiteOpenHelper {
 
     public int deleteData(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(TABLE_NAME, "ID = ? ", new String[]{Integer.toString(id)});
+
+        return db.delete(TABLE_NAME, "ID = " + id, null);
     }
 
     public boolean updateData(int id, Note item) {
@@ -87,10 +90,10 @@ public class Database extends SQLiteOpenHelper {
         contentValues.put(COL_2, item.getTitle());
         contentValues.put(COL_3, item.getContent());
 
-        db.update(TABLE_NAME, contentValues, " ID = ? ",
-                new String[]{ Integer.toString(id) });
+        Log.d("THIS_ID", id + " " + item.getTitle() + "\n" + item.getContent());
+
+        db.update(TABLE_NAME, contentValues, " ID = " + id, null);
 
         return true;
     }
 }
-
